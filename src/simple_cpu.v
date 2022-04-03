@@ -183,7 +183,24 @@ branch_control m_branch_control(
 // TODO : Currently, NEXT_PC is always PC_PLUS_4. Using adders and muxes & 
 // control signals, compute & assign the correct NEXT_PC.
 //////////////////////////////////////////////////////////////////////////////
-assign NEXT_PC = PC_PLUS_4;
+wire [DATA_WIDTH-1:0] sextimm_shifted;
+wire [DATA_WIDTH-1:0] sum;
+
+assign sextimm_shifted = sextimm << 1;
+adder add_sextimm(
+  .in_a(PC),
+  .in_b(sextimm_shifted),
+  .result(sum)
+);
+
+assign control_sextimm = alu_check & branch;
+
+mux_2x1 mux_sextimm(
+  .select(control_sextimm),
+  .in1(PC_PLUS_4),
+  .in2(sum),
+  .out(NEXT_PC)
+);
 
 
 ///////////////////////////////////////////////////////////////////////////////
