@@ -180,7 +180,7 @@ branch_control m_branch_control(
 );
 
 ///////////////////////////////////////////////////////////////////////////////
-// TODO : Currently, NEXT_PC is always PC_PLUS_4. Using adders and muxes & 
+// TODO : Currently, NEXT_PC is always PC_PLUS_4. Using adders and muxes &  (DONE)
 // control signals, compute & assign the correct NEXT_PC.
 //////////////////////////////////////////////////////////////////////////////
 wire [DATA_WIDTH-1:0] sextimm_shifted;
@@ -204,17 +204,17 @@ mux_2x1 mux_sextimm(
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// TODO : Feed the appropriate inputs to the data memory
+// TODO : Feed the appropriate inputs to the data memory (DONE)
 //////////////////////////////////////////////////////////////////////////////
 /* m_data_memory: data memory */
 data_memory m_data_memory(
   .clk(clk),
   .mem_write(mem_write),
   .mem_read(mem_read),
-  .maskmode(2'b00),
-  .sext(1'b0),
-  .address(32'b0),
-  .write_data(32'b0),
+  .maskmode(DATA_WIDTH == 32 ? 2'b10 : (DATA_WIDTH == 16 ? 2'b01 : 2'b00)), //unsure
+  .sext(alu_src), //unsure
+  .address(alu_out),
+  .write_data(rs2_out),
 
   .read_data(read_data)
 );
