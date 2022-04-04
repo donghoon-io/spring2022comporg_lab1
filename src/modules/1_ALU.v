@@ -31,6 +31,15 @@ always @(*) begin
     // - The example below is given as a hint
     // - `OP_SRA: result = $signed(in_a) >>> in_b[4:0];
     //////////////////////////////////////////////////////////////////////////
+
+    `OP_SLL: in_a << in_b[4:0];
+    `OP_SRL: in_a >> in_b[4:0];
+    `OP_SRA: $signed(in_a) >>> in_b[4:0];
+    `OP_SLT: (in_a < in_b) ? 1:0; //not sure
+    `OP_SLTU: (in_a < in_b) ? 1:0; //not sure
+    `OP_BGE: (R[rs]>=R[rt]) ? 1:0; //not sure
+    `OP_BGEU: (R[rs]>=R[rt]) ? 1:0; //not sure
+
     default:  result = 32'h0000_0000;
   endcase
 end
