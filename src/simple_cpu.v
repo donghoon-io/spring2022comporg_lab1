@@ -193,10 +193,8 @@ adder add_sextimm(
   .result(sum)
 );
 
-assign control_sextimm = alu_check & branch;
-
 mux_2x1 mux_sextimm(
-  .select(control_sextimm),
+  .select(taken),
   .in1(PC_PLUS_4),
   .in2(sum),
   .out(NEXT_PC)
