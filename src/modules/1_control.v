@@ -24,8 +24,14 @@ always @(*) begin
     7'b0110011: controls = 10'b00_000_10_001; // R-type
     
     //////////////////////////////////////////////////////////////////////////
-    // TODO : Implement signals for other instruction types
+    // TODO : Implement signals for other instruction types (DONE)
     //////////////////////////////////////////////////////////////////////////
+    7'b0010011: controls = 10'b00_000_10_011; // I-type
+    7'b0000011: controls = 10'b00_011_00_011; // L-type
+    7'b0100011: controls = 10'b00_000_00_110; // S-type
+    7'b1100011: controls = 10'b00_100_01_000; // B-type
+    7'b1101111: controls = 10'b10_000_00_001; // J-type
+    7'b1100111: controls = 10'b01_000_00_001; // J-type (I)
 
     default:    controls = 10'b00_000_00_000;
   endcase
