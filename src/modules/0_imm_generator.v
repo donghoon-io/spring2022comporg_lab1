@@ -14,8 +14,10 @@ assign opcode = instruction[6:0];
 always @(*) begin
   case (opcode)
     //////////////////////////////////////////////////////////////////////////
-    // TODO : Generate sextimm using instruction
+    // TODO : Generate sextimm using instruction (DONE)
     //////////////////////////////////////////////////////////////////////////
+    6'b0010011: sextimm = $signed(instruction[31:20]);
+    
     default:    sextimm = 32'h0000_0000;
   endcase
 end

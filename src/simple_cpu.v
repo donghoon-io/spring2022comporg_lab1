@@ -115,8 +115,13 @@ register_file m_register_file(
 // TODO : Immediate Generator (DONE)
 //////////////////////////////////////////////////////////////////////////////
 
-wire [DATA_WIDTH-1:0] sextimm;
-assign sextimm = {{20{instr[31]}},instruction[31:20]};
+wire [DATA_WIDTH-1:0] sextimm_main;
+
+imm_generator sextimm_imm(
+  .instruction(instruction),
+
+  .sextimm(sextimm_main)
+);
 
 ////////////////////////////////////////////////////
 // Execute (EX) 
@@ -142,7 +147,7 @@ wire [31:0] alu_in2;
 mux_2x1 mux_alu(
   .select(alu_src),
   .in1(rs2_out),
-  .in2(sextimm),
+  .in2(sextimm_main),
   .out(alu_in2)
 );
 
@@ -186,7 +191,7 @@ branch_control m_branch_control(
 wire [DATA_WIDTH-1:0] sextimm_shifted;
 wire [DATA_WIDTH-1:0] sum;
 
-assign sextimm_shifted = sextimm << 1;
+assign sextimm_shifted = sextimm_main << 1;
 adder add_sextimm(
   .in_a(PC),
   .in_b(sextimm_shifted),
