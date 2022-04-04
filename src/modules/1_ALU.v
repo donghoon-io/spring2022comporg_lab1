@@ -27,7 +27,7 @@ always @(*) begin
     `OP_AND:  result = in_a &  in_b;
 
     //////////////////////////////////////////////////////////////////////////
-    // TODO : Add other operations
+    // TODO : Add other operations (DONE)
     // - The example below is given as a hint
     // - `OP_SRA: result = $signed(in_a) >>> in_b[4:0];
     //////////////////////////////////////////////////////////////////////////
@@ -48,8 +48,11 @@ end
 always @(*) begin
   case (alu_func)
     //////////////////////////////////////////////////////////////////////////
-    // TODO : Generate check signal
+    // TODO : Generate check signal (DONE)
     //////////////////////////////////////////////////////////////////////////
+
+    `OP_BGE: check = (in_a == in_b);
+    `OP_BGEU: check = (in_a == in_b);
     default:  check = 1'b0;
   endcase
 end
