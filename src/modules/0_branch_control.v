@@ -11,6 +11,6 @@ module branch_control
 // TODO : You need to do something! (DONE)
 //////////////////////////////////////////////////////////////////////////////
 
-assign taken = branch & check;
+assign taken = branch & check ?  1'b1 : 1'b0;
 
 endmodule
