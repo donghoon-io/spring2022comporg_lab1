@@ -37,8 +37,8 @@ always @(*) begin
     `OP_SRA: $signed(in_a) >>> in_b[4:0];
     `OP_SLT: (in_a < in_b) ? 1:0; //not sure
     `OP_SLTU: (in_a < in_b) ? 1:0; //not sure
-    `OP_BGE: (R[rs]>=R[rt]) ? 1:0; //not sure
-    `OP_BGEU: (R[rs]>=R[rt]) ? 1:0; //not sure
+    `OP_BGE: (in_a >= in_b) ? 1:0; //not sure
+    `OP_BGEU: (in_a >= in_b) ? 1:0; //not sure
 
     default:  result = 32'h0000_0000;
   endcase
