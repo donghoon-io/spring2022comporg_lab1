@@ -29,6 +29,16 @@ module data_memory #(
       // TODO : Perform writes (select certain bits from write_data
       // according to maskmode
       ////////////////////////////////////////////////////////////////////////
+      case (maskmode)
+        2'b00: begin
+          //mem_array[address_internal] <= write_data;
+        2'b01: begin
+          //mem_array[address_internal] <= write_data;
+        2'b10: begin
+          //mem_array[address_internal] <= write_data;
+        default: begin
+          //mem_array[address_internal] <= write_data;
+      endcase
     end
   end
 
@@ -38,6 +48,7 @@ module data_memory #(
       ////////////////////////////////////////////////////////////////////////
       // TODO : Perform reads (select bits according to sext & maskmode)
       ////////////////////////////////////////////////////////////////////////
+      //read_data = mem_array[address_internal];
     end else begin
       read_data = 32'h0000_0000;
     end
