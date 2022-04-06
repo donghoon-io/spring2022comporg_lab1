@@ -32,13 +32,13 @@ always @(*) begin
     // - `OP_SRA: result = $signed(in_a) >>> in_b[4:0];
     //////////////////////////////////////////////////////////////////////////
 
-    `OP_SLL: in_a << in_b[4:0];
-    `OP_SRL: in_a >> in_b[4:0];
-    `OP_SRA: $signed(in_a) >>> in_b[4:0];
-    `OP_SLT: (in_a < in_b) ? 1:0; //not sure
-    `OP_SLTU: (in_a < in_b) ? 1:0; //not sure
-    `OP_BGE: (in_a >= in_b) ? 1:0; //not sure
-    `OP_BGEU: (in_a >= in_b) ? 1:0; //not sure
+    `OP_SLL: result = $signed(in_a) << in_b[4:0];
+    `OP_SRL: result = $signed(in_a) >> in_b[4:0];
+    `OP_SRA: result = $signed(in_a) >>> in_b[4:0];
+    `OP_SLT: result = ($signed(in_a) < $signed(in_b)) ? 1:0; //not sure
+    `OP_SLTU: result = (in_a < in_b) ? 1:0; //not sure
+    `OP_BGE: result = ($signed(in_a) >= $signed(in_b)) ? 1:0; //not sure
+    `OP_BGEU: result = (in_a >= in_b) ? 1:0; //not sure
 
     default:  result = 32'h0000_0000;
   endcase
@@ -50,9 +50,8 @@ always @(*) begin
     //////////////////////////////////////////////////////////////////////////
     // TODO : Generate check signal (DONE)
     //////////////////////////////////////////////////////////////////////////
-
-    `OP_BGE: check = (in_a == in_b);
-    `OP_BGEU: check = (in_a == in_b);
+    `OP_BGE: check = (result == 32'h0000_0000) ? 1'b1: 1'b0;
+    `OP_BGEU: check = (result == 32'h0000_0000) ? 1'b1: 1'b0;
     default:  check = 1'b0;
   endcase
 end

@@ -30,14 +30,10 @@ module data_memory #(
       // according to maskmode
       ////////////////////////////////////////////////////////////////////////
       case (maskmode)
-        2'b00: begin
-          //mem_array[address_internal] <= write_data;
-        2'b01: begin
-          //mem_array[address_internal] <= write_data;
-        2'b10: begin
-          //mem_array[address_internal] <= write_data;
-        default: begin
-          //mem_array[address_internal] <= write_data;
+        2'b00: mem_array[address_internal] <= write_data; //수정
+        2'b01: mem_array[address_internal/2] <= write_data; //수정
+        2'b10: mem_array[address_internal/4] <= write_data; //수정
+        default: mem_array[address_internal] <= write_data; //수정
       endcase
     end
   end
@@ -48,7 +44,25 @@ module data_memory #(
       ////////////////////////////////////////////////////////////////////////
       // TODO : Perform reads (select bits according to sext & maskmode)
       ////////////////////////////////////////////////////////////////////////
-      //read_data = mem_array[address_internal];
+      case (sext)
+        1'b1: begin
+          case (maskmode)
+            2'b00: read_data = {24'b0, mem_array[address_internal]};
+            2'b01: read_data = {16'b0, mem_array[address_internal/2]};
+            2'b10: read_data = mem_array[address_internal/4];
+            default: read_data = mem_array[address_internal];
+          endcase
+        end
+        1'b0: begin
+          case (maskmode)
+            2'b00: read_data = $signed(mem_array[address_internal]);
+            2'b01: read_data = $signed(mem_array[address_internal/2]);
+            2'b10: read_data = $signed(mem_array[address_internal/4]);
+            default: read_data = $signed(mem_array[address_internal]);
+          endcase
+        end
+        default: read_data = 32'h0000_0000;
+      endcase
     end else begin
       read_data = 32'h0000_0000;
     end
