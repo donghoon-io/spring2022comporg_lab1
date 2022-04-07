@@ -214,8 +214,8 @@ data_memory m_data_memory(
   .clk(clk),
   .mem_write(mem_write),
   .mem_read(mem_read),
-  .maskmode(DATA_WIDTH == 32 ? 2'b10 : (DATA_WIDTH == 16 ? 2'b01 : 2'b00)), //unsure
-  .sext(!alu_src), //unsure
+  .maskmode(funct3[1:0]), //unsure
+  .sext(funct3[2]), //unsure
   .address(alu_out),
   .write_data(rs2_out),
 

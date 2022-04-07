@@ -32,8 +32,8 @@ always @(*) begin
     // - `OP_SRA: result = $signed(in_a) >>> in_b[4:0];
     //////////////////////////////////////////////////////////////////////////
 
-    `OP_SLL: result = $signed(in_a) << in_b[4:0];
-    `OP_SRL: result = $signed(in_a) >> in_b[4:0];
+    `OP_SLL: result = $signed(in_a) << in_b;
+    `OP_SRL: result = $signed(in_a) >> in_b;
     `OP_SRA: result = $signed(in_a) >>> in_b[4:0];
     `OP_SLT: result = ($signed(in_a) < $signed(in_b)) ? 1:0; //not sure
     `OP_SLTU: result = (in_a < in_b) ? 1:0; //not sure
