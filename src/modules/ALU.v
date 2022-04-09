@@ -50,7 +50,7 @@ always @(*) begin
     //////////////////////////////////////////////////////////////////////////
     // TODO : Generate check signal (DONE)
     //////////////////////////////////////////////////////////////////////////
-    `OP_ADD: check = 1'b1;
+    `OP_ADD: check = (in_a != in_b) ? 1'b1:1'b0;
     `OP_SUB: check = (result == 32'h0000_0000) ? 1'b1:1'b0;
     `OP_XOR: check = (result == 32'h0000_0001) ? 1'b1:1'b0;
     `OP_SLT: check = ($signed(in_a) < $signed(in_b)) ? 1'b1:1'b0;
