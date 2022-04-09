@@ -188,42 +188,6 @@ branch_control m_branch_control(
 // TODO : Currently, NEXT_PC is always PC_PLUS_4. Using adders and muxes &  (DONE)
 // control signals, compute & assign the correct NEXT_PC.
 //////////////////////////////////////////////////////////////////////////////
-
-/*
-wire [DATA_WIDTH-1:0] sextimm_sum;
-reg [DATA_WIDTH-1:0] sextimm_2x;
-reg [DATA_WIDTH-1:0] sextimm_temp;
-//PC_PLUS_4
-
-adder add_sextimm(
-  .in_a(PC),
-  .in_b(sextimm_main),
-  .result(sextimm_sum)
-);
-
-always @(*) begin
-  sextimm_2x = sextimm_sum+$signed(rs1_out);
-  case (jump)
-    {1'b0, 1'b0}: begin
-      case (taken)
-        1'b0: sextimm_temp = PC_PLUS_4;
-        1'b1: sextimm_temp = sextimm_sum;
-        default: sextimm_temp = PC_PLUS_4;
-      endcase
-    end
-    {1'b1, 1'b0}: begin
-      sextimm_temp = sextimm_sum;
-    end
-    {1'b0, 1'b1}: begin
-      sextimm_temp = {sextimm_2x[31:1], 1'b0};
-    end
-    default: begin
-      sextimm_temp = PC_PLUS_4;
-    end
-  endcase
-end
-assign NEXT_PC = sextimm_temp;
-*/
 wire [DATA_WIDTH-1:0] sextimm_sum, sextimm_rs1_sum;
 reg [DATA_WIDTH-1:0] sextimm_sum_result;
 
