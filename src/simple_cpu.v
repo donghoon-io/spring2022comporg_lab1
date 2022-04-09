@@ -188,22 +188,83 @@ branch_control m_branch_control(
 // TODO : Currently, NEXT_PC is always PC_PLUS_4. Using adders and muxes &  (DONE)
 // control signals, compute & assign the correct NEXT_PC.
 //////////////////////////////////////////////////////////////////////////////
-wire [DATA_WIDTH-1:0] sextimm_shifted;
-wire [DATA_WIDTH-1:0] sum;
 
-assign sextimm_shifted = sextimm_main << 1;
+/*
+wire [DATA_WIDTH-1:0] sextimm_sum;
+reg [DATA_WIDTH-1:0] sextimm_2x;
+reg [DATA_WIDTH-1:0] sextimm_temp;
+//PC_PLUS_4
+
 adder add_sextimm(
   .in_a(PC),
-  .in_b(sextimm_shifted),
-  .result(sum)
+  .in_b(sextimm_main),
+  .result(sextimm_sum)
 );
 
-mux_2x1 mux_sextimm(
-  .select(taken),
-  .in1(PC_PLUS_4),
-  .in2(sum),
-  .out(NEXT_PC)
+always @(*) begin
+  sextimm_2x = sextimm_sum+$signed(rs1_out);
+  case (jump)
+    {1'b0, 1'b0}: begin
+      case (taken)
+        1'b0: sextimm_temp = PC_PLUS_4;
+        1'b1: sextimm_temp = sextimm_sum;
+        default: sextimm_temp = PC_PLUS_4;
+      endcase
+    end
+    {1'b1, 1'b0}: begin
+      sextimm_temp = sextimm_sum;
+    end
+    {1'b0, 1'b1}: begin
+      sextimm_temp = {sextimm_2x[31:1], 1'b0};
+    end
+    default: begin
+      sextimm_temp = PC_PLUS_4;
+    end
+  endcase
+end
+assign NEXT_PC = sextimm_temp;
+*/
+wire [DATA_WIDTH-1:0] sextimm_sum, sextimm_rs1_sum;
+reg [DATA_WIDTH-1:0] sextimm_sum_result;
+
+adder add_sextimm_sum(
+  .in_a(PC),
+  .in_b(sextimm_main),
+  .result(sextimm_sum)
 );
+adder add_sextimm_rs1_sum(
+  .in_a(rs1_out),
+  .in_b(sextimm_main),
+  .result(sextimm_rs1_sum)
+);
+
+always @(*) begin
+  case (jump)
+    {1'b0, 1'b0}: begin
+      case (taken)
+      1'b1: begin
+        sextimm_sum_result = sextimm_sum;
+      end
+      1'b0: begin
+        sextimm_sum_result = PC_PLUS_4;
+      end
+      default: begin
+        sextimm_sum_result = PC_PLUS_4;
+      end
+      endcase
+    end
+    {1'b1, 1'b0}: begin
+      sextimm_sum_result = sextimm_sum;
+    end
+    {1'b0, 1'b1}: begin
+      sextimm_sum_result = (sextimm_rs1_sum/2) << 1;
+    end
+      default: begin
+        sextimm_sum_result = PC_PLUS_4;
+      end
+  endcase
+end
+assign NEXT_PC = sextimm_sum_result;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -232,9 +293,9 @@ data_memory m_data_memory(
 // TODO : Need a fix (DONE)
 //////////////////////////////////////////////////////////////////////////////
 mux_2x1 mux_wb(
-  .select(mem_to_reg),
-  .in1(alu_out),
-  .in2(read_data),
+  .select(jump == {2{1'b0}} ? 1'b0:1'b1),
+  .in1(mem_to_reg == 1'b0 ? alu_out:read_data),
+  .in2(PC_PLUS_4),
   .out(write_data)
 );
 
