@@ -45,13 +45,34 @@ always @(*) begin
       ///////////////////////////////////////////////////////////////////////
       // TODO : select operation for loads/stores (DONE)
       ///////////////////////////////////////////////////////////////////////
-      alu_func = `OP_ADD;
+      // alu_func = `OP_ADD;
+      case (funct)
+        4'b0_000: alu_func = `OP_ADD; // load byte
+        4'b0_001: alu_func = `OP_ADD; // load half
+        4'b0_010: alu_func = `OP_ADD; // load word
+        4'b0_100: alu_func = `OP_ADD; // load byte (U)
+        4'b0_101: alu_func = `OP_ADD; // load half (U)
+
+        4'b1_000: alu_func = `OP_ADD; // store byte
+        4'b1_001: alu_func = `OP_ADD; // store half
+        4'b1_010: alu_func = `OP_ADD; // store word
+        default:  alu_func = `OP_EEE;  // shoud not fall here 
+      endcase
     end
     2'b01: begin
       ///////////////////////////////////////////////////////////////////////
       // TODO : select operation for branches (DONE)
       ///////////////////////////////////////////////////////////////////////
-      alu_func = `OP_SUB;
+      // alu_func = `OP_SUB;
+      case (funct)
+        4'b1_000: alu_func = `OP_SUB; // branch ==
+        4'b1_001: alu_func = `OP_XOR; // branch !=
+        4'b1_100: alu_func = `OP_SLT; // branch <
+        4'b1_101: alu_func = `OP_BGE; // branch >=
+        4'b1_110: alu_func = `OP_SLTU; // branch <
+        4'b1_111: alu_func = `OP_BGEU; // branch >=
+        default:  alu_func = `OP_EEE;  // shoud not fall here 
+      endcase
     end
     2'b10: begin                // R-types
       case (funct)

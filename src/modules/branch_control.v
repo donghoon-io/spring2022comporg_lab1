@@ -12,7 +12,7 @@ module branch_control
 //////////////////////////////////////////////////////////////////////////////
 
 always @(*) begin
-  taken = branch & check ?  1'b1 : 1'b0;
+  taken = branch & check;
 end
 
 endmodule

@@ -26,13 +26,13 @@ module data_memory #(
   always @(negedge clk) begin 
     if (mem_write == 1'b1) begin
       ////////////////////////////////////////////////////////////////////////
-      // TODO : Perform writes (select certain bits from write_data
+      // TODO : Perform writes (select certain bits from write_data (DONE)
       // according to maskmode
       ////////////////////////////////////////////////////////////////////////
       case (maskmode)
-        2'b00: mem_array[address_internal][7:0] = write_data; //수정
-        2'b01: mem_array[address_internal][15:0] = write_data; //수정
-        2'b10: mem_array[address_internal][31:0] = write_data; //수정
+        2'b00: mem_array[address_internal][7:0] = write_data;
+        2'b01: mem_array[address_internal][15:0] = write_data;
+        2'b10: mem_array[address_internal][31:0] = write_data;
         default: ;
       endcase
     end
@@ -42,7 +42,7 @@ module data_memory #(
   always @(*) begin
     if (mem_read == 1'b1) begin
       ////////////////////////////////////////////////////////////////////////
-      // TODO : Perform reads (select bits according to sext & maskmode)
+      // TODO : Perform reads (select bits according to sext & maskmode) (DONE)
       ////////////////////////////////////////////////////////////////////////
       case (sext)
         1'b1: begin

@@ -30,8 +30,8 @@ always @(*) begin
     7'b0000011: controls = 10'b00_011_00_011; // L-type
     7'b0100011: controls = 10'b00_000_00_110; // S-type
     7'b1100011: controls = 10'b00_100_01_000; // B-type
-    7'b1101111: controls = 10'b10_000_00_001; // J-type
-    7'b1100111: controls = 10'b01_000_00_001; // J-type (I)
+    7'b1101111: controls = 10'b10_000_00_001; // Jal
+    7'b1100111: controls = 10'b01_000_00_001; // Jalr
 
     default:    controls = 10'b00_000_00_000;
   endcase
