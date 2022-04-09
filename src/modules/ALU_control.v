@@ -64,13 +64,13 @@ always @(*) begin
       // TODO : select operation for branches (DONE)
       ///////////////////////////////////////////////////////////////////////
       // alu_func = `OP_SUB;
-      case (funct)
-        4'b1_000: alu_func = `OP_SUB; // branch ==
-        4'b1_001: alu_func = `OP_XOR; // branch !=
-        4'b1_100: alu_func = `OP_SLT; // branch <
-        4'b1_101: alu_func = `OP_BGE; // branch >=
-        4'b1_110: alu_func = `OP_SLTU; // branch <
-        4'b1_111: alu_func = `OP_BGEU; // branch >=
+      casex (funct)
+        4'bx_000: alu_func = `OP_SUB; // branch ==
+        4'bx_001: alu_func = `OP_XOR; // branch !=
+        4'bx_100: alu_func = `OP_SLT; // branch <
+        4'bx_101: alu_func = `OP_BGE; // branch >=
+        4'bx_110: alu_func = `OP_SLTU; // branch <
+        4'bx_111: alu_func = `OP_BGEU; // branch >=
         default:  alu_func = `OP_EEE;  // shoud not fall here 
       endcase
     end
