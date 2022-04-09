@@ -52,10 +52,10 @@ always @(*) begin
     //////////////////////////////////////////////////////////////////////////
     `OP_SUB: check = (result == 32'h0000_0000) ? 1'b1:1'b0;
     `OP_XOR: check = (in_a != in_b) ? 1'b1:1'b0;
-    `OP_SLT: check = ($signed(in_a) < $signed(in_b)) ? 1'b1:1'b0;
-    `OP_SLTU: check = (in_a < in_b) ? 1'b1:1'b0;
-    `OP_BGE: check = ($signed(in_a) >= $signed(in_b)) ? 1'b1:1'b0;
-    `OP_BGEU: check = (in_a >= in_b) ? 1'b1:1'b0;
+    `OP_SLT: check = (result == 32'h0000_0001) ? 1'b1:1'b0;
+    `OP_SLTU: check = (result == 32'h0000_0001) ? 1'b1:1'b0;
+    `OP_BGE: check = (result == 32'h0000_0001) ? 1'b1:1'b0;
+    `OP_BGEU: check = (result == 32'h0000_0001) ? 1'b1:1'b0;
     default:  check = 1'b0;
   endcase
 end
